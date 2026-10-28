@@ -30,7 +30,6 @@ jobs:
          source venv/bin/activate
          pip install -r requirements.txt
          playwright install
-         playwright install-deps
 
      - name: Run tests
        run: |
@@ -39,7 +38,7 @@ jobs:
          pytest tests/integration/
          pytest tests/e2e/
 
-security:
+ security:
    needs: test
    runs-on: ubuntu-latest
    steps:
@@ -53,11 +52,11 @@ security:
        with:
          image-ref: 'app:test'
          format: 'table'
-         exit-code: '0'
+         exit-code: '1'
          ignore-unfixed: true
          severity: 'CRITICAL,HIGH'
 
-deploy:
+ deploy:
    needs: security
    if: github.ref == 'refs/heads/main'
    runs-on: ubuntu-latest
@@ -81,3 +80,4 @@ deploy:
          platforms: linux/amd64,linux/arm64
          cache-from: type=registry,ref=shakawathh/assignment8:cache
          cache-to: type=inline,mode=max
+         
